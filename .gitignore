@@ -1,0 +1,8 @@
+# Node
+node_modules
+npm-debug.log
+
+# OS things
+._*
+*.DS_Store
+Thumbs.db

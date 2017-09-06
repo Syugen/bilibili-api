@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="body-dash">
+
+    <div class="col-sm-9 col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pencil-square-o fa"></i> Select course and time
+            </div>
+            <div class="panel-body">
+            <form id="time-form">
+            Course: 
+            <select name="course">
+                <option value="0" selected disabled>PLEASE SELECT</option>
+                <option value="CSC108">CSC108</option>
+                <option value="CSC148">CSC148</option>
+            </select><br>
+            <table class="table table-bordered">
+                <tr>
+                <th>Time</th>
+                {% for date in dates %}
+                <th>{{date}}</th>
+                {% endfor %}
+                </tr>
+                {% for i in range(13) %}
+                <tr>
+                    <td>{{i+9}}:00</td>
+                    {% for j in range(cells[i].length) %}
+                        <td>
+                            {% if cells[i][j] !== "" %} N/A
+                            {% else %}
+                            <input type="checkbox" name="{{dates[j].substring(0, 8)}}-{{i+9}}">
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-pencil-square-o fa"></i> Order now
+            </div>
+
+            <div class="panel-body">
+            {% if session.user %}
+            <form id="info-form">
+                WeChat (Contact us to change)<br>
+                <input type="text" name="username" value="{{session.user.username}}" readonly><br>
+                Phone<br><input type="text" name="phone" id="phone-input"><br>
+                Location: Kelly Library<br>
+                本学期报名工作已经结束,谢谢您的支持!
+                <input disabled type="submit" value="Submit"><span id="form-feedback" style="color: red"></span>
+            </form>
+            {% else %}Sign up or log in to order.
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-tasks fa"></i>
+                Upcoming orders
+            </div>
+
+            <div class="panel-body">
+                {% if orders.length === 0 %}
+                    You don't have any upcoming orders!
+                {% endif %}
+
+                {% for order in orders %}
+                    <span class="list-group-item">
+                        {{order.date}}: {{order.course}}<br>
+                    </span>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3 col-md-3 sidebar">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-user"></i>
+                    {% if session.user.type === "admin" %}
+                        All Users
+                    {% else %}
+                        Friends List
+                    {% endif %}
+            </div>
+
+            <div class="panel-body">
+                {% if friends.length === 0 %}
+                    You don't have any friends!
+                {% endif %}
+                {% for friend in friends %}
+                    <a href="/profile?id={{friend.username}}" class="list-group-item">
+                        {{friend.username}}
+                        <span style="float: right; color: {% if friend.online %}green{% else %}red{% endif %}">
+                            ● {% if friend.online %}online{% else %}offline{% endif %}
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

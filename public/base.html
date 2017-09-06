@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+    <title>UTop Tutor</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/main.css" />
+    {% for css in styles %}
+    <link type="text/css" rel="stylesheet" href="css/{{ css }}.css" />
+    {% endfor %}
+    <link type="image/x-icon" rel="shortcut icon" href="images/favicon.ico">
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.scrolly.min.js"></script>
+    <script src="js/jquery.scrollex.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+    {% for script in scripts %}
+    <script src="scripts/{{ script }}.js"></script>
+    {% endfor %}
+</head>
+
+<body id="page-top">
+    <nav id="mainNav" class="navbar navbar-default">
+        <header id="header" class="alt">
+            <div class="logo"><a href="/">Bilibili <span>API</span></a></div>
+            <a href="#menu">Menu</a>
+        </header>
+
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="generic.html">Generic</a></li>
+                <li><a href="elements.html">Elements</a></li>
+            </ul>
+        </nav>
+    </nav>
+
+    {% block body %}
+    {% endblock %}
+</body>

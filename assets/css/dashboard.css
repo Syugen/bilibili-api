@@ -1,0 +1,10 @@
+#admin-list{
+	border:none;
+}
+
+.list-group-item{
+	border-left: none;
+	border-right:none;
+	border-top: none;
+	border-bottom: 2px solid;
+}
