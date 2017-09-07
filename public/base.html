@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>UTop Tutor</title>
+    <title>Bilibili API</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,23 +10,15 @@
     {% endfor %}
     <link type="image/x-icon" rel="shortcut icon" href="images/favicon.ico">
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
--->
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.scrolly.min.js"></script>
     <script src="js/jquery.scrollex.min.js"></script>
     <script src="js/skel.min.js"></script>
-    <script src="js/util.js"></script>
-    <script src="js/main.js"></script>
-    {% for script in scripts %}
-    <script src="scripts/{{ script }}.js"></script>
-    {% endfor %}
 </head>
 
-<body id="page-top">
+<body {% if isSubpage %} class="subpage" {% endif %}>
     <nav id="mainNav" class="navbar navbar-default">
-        <header id="header" class="alt">
+        <header id="header" {% if isIndex %} class="alt" {% endif %}>
             <div class="logo"><a href="/">Bilibili <span>API</span></a></div>
             <a href="#menu">Menu</a>
         </header>
@@ -42,4 +34,9 @@
 
     {% block body %}
     {% endblock %}
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+    {% for script in scripts %}
+    <script src="scripts/{{ script }}.js"></script>
+    {% endfor %}
 </body>
