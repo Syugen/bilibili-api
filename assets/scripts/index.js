@@ -1,5 +1,5 @@
 'use strict';
 
 $("#button").click(function(event) {
-    window.location = "/stat?aid=" + $("#aid").val();
+    window.location = "/video?aid=" + $("#aid").val();
 });

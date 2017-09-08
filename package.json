@@ -5,8 +5,10 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.15.2",
+    "decompress-response": "^3.3.0",
+    "dom-parser": "^0.1.5",
     "express": "^4.14.0",
     "nodemon": "^1.11.0",
-    "nunjucks": "^3.0.0"
+    "nunjucks": "^3.0.0",
   }
 }
