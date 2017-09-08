@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <input type="hidden" id="aid" value="{{data.data.aid}}" />
+    <input type="hidden" id="aid" value="{{ info.av }}" />
 
     <!-- Main -->
     <div id="main">
@@ -11,15 +11,15 @@
         <section class="wrapper">
             <div class="inner">
                 <header class="align-center">
-                    <h2 id="title">Loading...</h2>
-                    <p><span>av{{ data.data.aid }}</span>|
-                       <span id="time">Loading</span>|
+                    <h2 id="title">{{ info.title }}</h2>
+                    <p><span>av{{ info.av }}</span> |
+                       <span id="time">Loading</span> |
                        <span id="class">Loading</span>
                     </p>
                 </header>
                 <div class="flex flex-2">
                     <div class="col col1">
-                        <table>
+                        <table id="stat">
                             <thead>
                                 <tr>
                                     <th>统计内容</th>
@@ -27,7 +27,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for key, value in data.data %}
+                                {% for key, value in stat.data %}
                                 <tr>
                                     <td>{% if key == "aid" %}av号
                                         {% elif key == "view" %}点击
@@ -60,23 +60,35 @@
                     </div>
                     <div class="col col2 first">
                         <span class="image right round fit" style="max-width:150px">
-                            <img id="upAvatar" src="" alt>
+                            <img id="upAvatar" src="{{ info.upimg }}" alt>
                         </span>
                         <h4>UP主</h4>
                         <p>
-                            <span id="upName">Loading...</span><br>
+                            <span id="upName">{{ info.up }}</span><br>
                             <span id="upSign">Loading...</span><br>
                         </p>
-                            
+
                         <h4>简介</h4>
-                        <blockquote id="description">Loading...</blockquote>
-                        <h4>评论</h4>
-                        <div id="comment">未完成……</div>
+                        <blockquote id="description">{{ info.desc }}</blockquote>
+                        {% if info.list.length > 1 %}
+                        <h4>分P</h4>
+                        <div id="list" style="overflow: auto">
+                            <ol>
+                                {% for item in info.list %}
+                                <li>{{ item.Title }} ({{ item.CID }})</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </section>
-        <textarea id="page" row="50" style="height:500px"></textarea>
+
+        <section class="wrapper style1">
+            <div class="inner">
+            </div>
+        </section>
     </div>
 
 {% endblock %}

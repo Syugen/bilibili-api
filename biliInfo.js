@@ -42,14 +42,39 @@ app.get("/video", function(req, res) {
         data.on('data', function(chunk) {
             output += chunk;
         }).on('end', function() {
-            var json = JSON.parse(output);
-            return res.render("video.html", {data: json, isSubpage: true,
-                                             scripts: ["video"]});
+            var stat = JSON.parse(output);
+            getInfo(req, res, stat);
         }).on('error', function(e) {
             console.log('ERROR: ' + e.message);
         });
     });
 });
+
+function getInfo(req, res, stat) {
+    var options = {
+        host: "www.jijidown.com",
+        path: "/Api/AvToCid/" + req.query.aid
+    };
+
+    var req2 = http.get(options, function(data) {
+        var output = "";
+        data.on('data', function(chunk) {
+            output += chunk;
+        }).on('end', function() {
+            var info = JSON.parse(output);
+            info.time = new Date(info.time * 1000); // cache time
+            var settings = {
+                stat: stat,
+                info: info,
+                isSubpage: true,
+                scripts: ["video"]
+            };
+            return res.render("video.html", settings);
+        }).on('error', function(e) {
+            console.log('ERROR: ' + e.message);
+        });
+    });
+}
 
 app.get("/page", function(req, res) {
     var options = {
@@ -69,17 +94,17 @@ app.get("/page", function(req, res) {
         }).on('end', function() {
             var dom = parser.parseFromString(output), json = {};
             var tm = dom.getElementsByClassName("tminfo")[0];
-            json.title = dom.getElementsByTagName("h1")[0].getAttribute("title");
+            //json.title = dom.getElementsByTagName("h1")[0].getAttribute("title");
             json.time = dom.getElementsByTagName("time")[0].getAttribute("datetime");
             json.class1 = tm.getElementsByTagName("a")[0].innerHTML;
             json.class2 = tm.getElementsByTagName("a")[1].innerHTML;
             json.class3 = tm.getElementsByTagName("a")[2].innerHTML;
-            json.description = dom.getElementById("v_desc").innerHTML;
-            json.upName = dom.getElementsByClassName("usname")[0].
-                              getElementsByTagName("a")[0].innerHTML;
+            //json.description = dom.getElementById("v_desc").innerHTML;
+            //json.upName = dom.getElementsByClassName("usname")[0].
+            //                  getElementsByTagName("a")[0].innerHTML;
             json.upSign = dom.getElementsByClassName("sign")[0].innerHTML;
-            json.upAvatar = dom.getElementsByClassName("upinfo")[0].
-                                getElementsByTagName("img")[0].getAttribute("data-fn-src");
+            //json.upAvatar = dom.getElementsByClassName("upinfo")[0].
+            //                    getElementsByTagName("img")[0].getAttribute("data-fn-src");
             return res.send(json);
         }).on('error', function(e) {
             console.log('ERROR: ' + e.message);
