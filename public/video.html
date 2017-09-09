@@ -109,10 +109,29 @@
         </section>
 
         <section class="wrapper style1">
-            <div class="inner">
+            <div class="inner" id="play">
+                <h4>播放</h4>
+                {% if info.list.length > 1 %}
+                    <p>点击上方分P选择播放视频（Not implemented）</p>
+                {% endif %}
+                <iframe src="https://secure.bilibili.com/secure,cid={{ info.list[0].CID }}&aid={{ stat.data.aid }}"
+                        width="100%" height="100%"></iframe>
             </div>
         </section>
         {% endif %}
     </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="copyright">
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li>
+            </ul>
+            <p>&copy; Untitled. All rights reserved. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.</p>
+        </div>
+    </footer>
 
 {% endblock %}

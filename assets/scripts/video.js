@@ -46,13 +46,23 @@ $.get("/page?aid=" + $("#aid").val(), function(data) {
 
 });
 
-var bot = $("#stat").position().top + $("#stat").height();
-$("#list").height(bot - $("#list").position().top);
-$("li").css("margin-left", "30px");
-$("li").width($("ol:first").width() / 2 - 60).css("float", "left");
-
-$( window ).resize(function() {
+if ($( window ).width() > 737) {
     var bot = $("#stat").position().top + $("#stat").height();
     $("#list").height(bot - $("#list").position().top);
-    $("li").width($("ol:first").width() / 2 - 60);
+    $("#list li").css("margin-left", "30px").css("float", "left");
+    $("#list li").width($("ol:first").width() / 2 - 60);
+    $("#play").height($("#play").width() * 0.6);
+}
+
+$( window ).resize(function() {
+    if ($( window ).width() > 737) {
+        var bot = $("#stat").position().top + $("#stat").height();
+        $("#list").height(bot - $("#list").position().top);
+        $("#list li").css("margin-left", "30px").css("float", "left");
+        $("#list li").width($("ol:first").width() / 2 - 60);
+        $("#play").height($("#play").width() * 0.6);
+    } else {
+        $("#list").css("height", "");
+        $("#list li").css("width", "").css("float", "");
+    }
 });
