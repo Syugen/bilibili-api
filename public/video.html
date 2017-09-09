@@ -2,19 +2,39 @@
 
 {% block body %}
 
-    <input type="hidden" id="aid" value="{{ info.av }}" />
+    <input type="hidden" id="aid" value="{{ stat.data.aid }}" />
+    <input type="hidden" id="jijifail"
+           value="{% if info and info.code == 0 %}0{% else %}1{% endif %}" />
 
     <!-- Main -->
     <div id="main">
 
+        {% if errorCode or stat.code != 0 %}
+        <section class="wrapper">
+            <div class="inner">
+                <header class="align-center">
+                    <h2>肥肠抱歉</h2>
+                    <p>
+                        {% if errorCode %}访问B站失败，回应代码：{{ errorCode }}
+                        {% else %}成功连接B站，但视频不见了或不存在{% endif %}
+                    </p>
+                </header>
+            </div>
+        </section>
+        {% else %}
         <!-- Section -->
         <section class="wrapper">
             <div class="inner">
                 <header class="align-center">
-                    <h2 id="title">{{ info.title }}</h2>
-                    <p><span>av{{ info.av }}</span> |
-                       <span id="time">Loading</span> |
-                       <span id="class">Loading</span>
+                    <h2 id="title">
+                        {% if info and info.code == 0 %}{{ info.title }}
+                        {% else %}从哔哩哔哩唧唧获取信息失败（连接失败或UP主禁止）……<br>正在从B站读取信息
+                        {% endif %}
+                    </h2>
+                    <p id="subtitle">
+                        <span>av{{ stat.data.aid }}</span> |
+                        <span id="time">Loading</span> |
+                        <span id="class">Loading</span>
                     </p>
                 </header>
                 <div class="flex flex-2">
@@ -38,17 +58,17 @@
                                         {% elif key == "share" %}分享
                                         {% elif key == "now_rank" %}当前排名
                                         {% elif key == "his_rank" %}最高全站日排行
-                                        {% elif key == "like" %}喜欢（啥？）
+                                        {% elif key == "like" %}推荐
+                                        {% elif key == "no_reprint" %}未经授权禁止转载
                                         {% elif key == "copyright" %}版权
                                         {% else %}{{key}}（还没查是啥）{% endif %}
                                     </td>
                                     <td>{% if key == "now_rank" %}
                                             {% if value == 0 %}无
                                             {% else %}{{value}}{% endif %}
-                                        {% elif key == "copyright" %}
-                                            {% if value == 0 %}禁止转载（我猜的）
-                                            {% elif value == 1 %}未经作者授权 禁止转载
-                                            {% elif value == 2 %}无
+                                        {% elif key == "no_reprint" %}
+                                            {% if value == 0 %}否
+                                            {% elif value == 1 %}是
                                             {% else %}未知{% endif %}
                                         {% else %}{{value}}{% endif %}
                                     {{item}}
@@ -59,8 +79,8 @@
                         </table>
                     </div>
                     <div class="col col2 first">
-                        <span class="image right round fit" style="max-width:150px">
-                            <img id="upAvatar" src="{{ info.upimg }}" alt>
+                        <span class="image right round fit"style="max-width:100px">
+                            <img id="upAvatar" src="{{ info.upimg }}" alt="Loading">
                         </span>
                         <h4>UP主</h4>
                         <p>
@@ -68,6 +88,9 @@
                             <span id="upSign">Loading...</span><br>
                         </p>
 
+                        <span class="image right fit" style="max-width:200px; margin-left: 20px">
+                            <img id="img" src="{{ info.img }}" alt="Loading">
+                        </span>
                         <h4>简介</h4>
                         <blockquote id="description">{{ info.desc }}</blockquote>
                         {% if info.list.length > 1 %}
@@ -75,7 +98,7 @@
                         <div id="list" style="overflow: auto">
                             <ol>
                                 {% for item in info.list %}
-                                <li>{{ item.Title }} ({{ item.CID }})</li>
+                                <li>{{ item.Title }}</li>
                                 {% endfor %}
                             </ol>
                         </div>
@@ -89,6 +112,7 @@
             <div class="inner">
             </div>
         </section>
+        {% endif %}
     </div>
 
 {% endblock %}
