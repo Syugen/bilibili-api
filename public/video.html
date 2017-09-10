@@ -10,17 +10,7 @@
     <div id="main">
 
         {% if errorCode or stat.code != 0 %}
-        <section class="wrapper">
-            <div class="inner">
-                <header class="align-center">
-                    <h2>肥肠抱歉</h2>
-                    <p>
-                        {% if errorCode %}访问B站失败，回应代码：{{ errorCode }}
-                        {% else %}成功连接B站，但视频不见了或不存在{% endif %}
-                    </p>
-                </header>
-            </div>
-        </section>
+        {% include "conn_fail.html" %}
         {% else %}
         <!-- Section -->
         <section class="wrapper">

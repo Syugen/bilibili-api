@@ -13,7 +13,7 @@ exports.getVideoStat = function(req, res) {
 
     var req2 = http.get(options, function(data) {
         if (data.statusCode != 200) {
-            return res.render("video.html", {errorCode: data.statusCode});
+            return res.render("video", {errorCode: data.statusCode});
         }
         var output = "";
         data.on('data', function(chunk) {
@@ -21,7 +21,7 @@ exports.getVideoStat = function(req, res) {
         }).on('end', function() {
             var stat = JSON.parse(output);
             if (stat.code != 0) {
-                return res.render("video.html", {stat: stat});
+                return res.render("video", {stat: stat});
             }
             getInfo(req, res, stat);
         });
@@ -41,7 +41,7 @@ function getInfo(req, res, stat) {
             scripts: ["video"]
         };
         if (data.statusCode != 200) {
-            return res.render("video.html", settings);
+            return res.render("video", settings);
         }
         var output = "";
         data.on('data', function(chunk) {
@@ -50,7 +50,7 @@ function getInfo(req, res, stat) {
             var info = JSON.parse(output);
             info.time = new Date(info.time * 1000); // cache time
             settings.info = info;
-            return res.render("video.html", settings);
+            return res.render("video", settings);
         });
     });
 }
@@ -64,8 +64,7 @@ exports.getVideoPage = function(req, res) {
     var req2 = http.get(options, function(data) {
         data = decompressResponse(data);
         if (data.statusCode != 200) {
-            return res.send("Error while visiting bilibili.com. " +
-                            "Status code is: " + data.statusCode);
+            return res.send({error: true, errorCode: data.statusCode});
         }
         var output = "";
         data.on('data', function(chunk) {

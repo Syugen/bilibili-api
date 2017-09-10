@@ -16,30 +16,24 @@
                     <p id="subtitle">[UP UID]</p>
                 </header>
                 <div class="flex flex-2">
+                        <h4><a href="userfollowing?uid=1740539">关注 {{ following }}</a> | 
+                            <a href="userfollower?uid=1740539">粉丝{{ follower }}</a></h4>
                         <table id="stat">
                             <thead>
                                 <tr>
-                                    <th>av号</th>
-                                    <th>标题</th>
-                                    <th>上传时间</th>
-                                    <th>时长</th>
-                                    <th>播放量</th>
-                                    <th>分类</th>
-                                    <th>评论</th>
-                                    <th>收藏</th>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>签名</th>
+                                    <th>注册时间？</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for item in data.vlist %}
+                                {% for item in data.list %}
                                 <tr>
-                                    <td>{{ item.aid }}</td>
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.created }}</td>
-                                    <td>{{ item.length }}</td>
-                                    <td>{{ item.play }}</td>
-                                    <td>{{ item.typeid }}</td>
-                                    <td>{{ item.comment }}</td>
-                                    <td>{{ item.favorites }}</td>
+                                    <td>{{ item.mid }}</td>
+                                    <td>{{ item.uname }}</td>
+                                    <td>{{ item.sign }}</td>
+                                    <td>{{ item.mtime }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

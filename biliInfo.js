@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('views', __dirname);
-app.set('view engine', 'html');
+app.set('view engine', 'html');                 // Can omit HTML extension
 
 app.use(function(req, res, next) {
     res.locals.session = req.session;
@@ -30,7 +30,9 @@ console.log(req.headers)
 
 app.get("/video", video.getVideoStat);
 app.get("/videopage", video.getVideoPage);
-app.get("/user", user.getUserPage);
+app.get("/user", user.getUserVideoList);
+app.get("/userfollowing", user.getUserFollowingList);
+app.get("/userfollower", user.getUserFollowerList);
 
 server.listen(3002, function(request, response) {
     console.log("Running on 127.0.0.1:%s", server.address().port);
