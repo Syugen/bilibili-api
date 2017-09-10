@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <!-- Main -->
+    <div id="main">
+
+        {% if errorCode %}
+        <section class="wrapper">
+            <div class="inner">
+                <header class="align-center">
+                    <h2>肥肠抱歉</h2>
+                    <p>
+                        {% if errorCode %}访问B站失败，回应代码：{{ errorCode }}
+                        {% else %}成功连接B站，但视频不见了或不存在{% endif %}
+                    </p>
+                </header>
+            </div>
+        </section>
+        {% else %}
+        <!-- Section -->
+        <section class="wrapper">
+            <div class="inner">
+                <header class="align-center">
+                    <h2 id="title">[UP用户名]</h2>
+                    <p id="subtitle">[UP UID]</p>
+                </header>
+                <div class="flex flex-2">
+                        <table id="stat">
+                            <thead>
+                                <tr>
+                                    <th>av号</th>
+                                    <th>标题</th>
+                                    <th>上传时间</th>
+                                    <th>时长</th>
+                                    <th>播放量</th>
+                                    <th>分类</th>
+                                    <th>评论</th>
+                                    <th>收藏</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data.vlist %}
+                                <tr>
+                                    <td>{{ item.aid }}</td>
+                                    <td>{{ item.title }}</td>
+                                    <td>{{ item.created }}</td>
+                                    <td>{{ item.length }}</td>
+                                    <td>{{ item.play }}</td>
+                                    <td>{{ item.typeid }}</td>
+                                    <td>{{ item.comment }}</td>
+                                    <td>{{ item.favorites }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="copyright">
+            <ul class="icons">
+                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li>
+            </ul>
+            <p>&copy; Untitled. All rights reserved. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.</p>
+        </div>
+    </footer>
+
+{% endblock %}

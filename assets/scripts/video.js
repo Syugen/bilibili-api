@@ -16,7 +16,7 @@
  *     该 JS 不会被加载。不会请求唧唧
  */
 
-$.get("/page?aid=" + $("#aid").val(), function(data) {
+$.get("/videopage?aid=" + $("#aid").val(), function(data) {
     // TODO handle non-200 error
     if (data.error) { // Parsing时出错
         $("#time").text("读取上传时间失败");

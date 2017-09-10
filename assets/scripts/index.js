@@ -2,5 +2,9 @@
 
 $("#form").submit(function(event) {
     event.preventDefault();
-    window.location = "/video?aid=" + $("#aid").val();
+    if ($("#av").prop("checked")) {
+        window.location = "/video?aid=" + $("#id").val();
+    } else if ($("#up").prop("checked")) {
+        window.location = "/user?uid=" + $("#id").val();
+    }
 });

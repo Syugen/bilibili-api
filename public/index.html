@@ -9,8 +9,12 @@
                     <p>View counters, comments. Whatever your want.</p>
                 </header>
                 <form id="form">
-                    <p><input id="aid" type="number" class="form-control"
-                              placeholder="Input AV number here."/></p>
+                    <input type="radio" name="type" id="av" checked/>
+                    <label for="av">Search video</label> 
+                    <input type="radio" name="type" id="up" />
+                    <label for="up">Search user</label>
+                    <p><input id="id" type="number" class="form-control"
+                              placeholder="Input AV/UP ID here."/></p>
                     <input type="submit" id="button" class="button big scrolly"
                            value="Search!" style="max-width: 150px"/>
                 </form>
