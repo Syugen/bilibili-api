@@ -15,16 +15,22 @@ exports.getUserVideoList = function(req, res) {
     httpGetTemplate(res, "user", host, path, req.query.uid);
 }
 
-exports.getUserFollowing = function(req, res) {
-    if (!req.query.uid) return res.render("error", {queryError: "uid"});
-    else return res.render("follow", {type: "followings", uid: req.query.uid,
-                                      scripts: ["user_amount", "follow"]});
+exports.getUserFollowingList = function(req, res) {
+    if (!req.query.uid) return res.render("following", {queryError: "uid"});
+
+    var n = req.query.page ? req.query.page : 1;
+    var host = "api.bilibili.com";
+    var path = "/x/relation/followings?vmid=" + req.query.uid + "&pn=" + n;
+    httpGetTemplate(res, "following", host, path, req.query.uid);
 }
 
-exports.getUserFollower = function(req, res) {
-    if (!req.query.uid) return res.render("error", {queryError: "uid"});
-    else return res.render("follow", {type: "followers", uid: req.query.uid,
-                                      scripts: ["user_amount", "follow"]});
+exports.getUserFollowerList = function(req, res) {
+    if (!req.query.uid) return res.render("following", {queryError: "uid"});
+
+    var n = req.query.page ? req.query.page : 1;
+    var host = "api.bilibili.com";
+    var path = "/x/relation/followers?vmid=" + req.query.uid + "&pn=" + n;
+    httpGetTemplate(res, "follower", host, path, req.query.uid);
 }
 
 function httpGetTemplate(res, page, host, path, uid) {

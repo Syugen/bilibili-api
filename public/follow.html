@@ -2,46 +2,42 @@
 
 {% block body %}
 
+    <input type="hidden" id="type" value="{{ type }}">
+    <input type="hidden" id="uid" value="{{ uid }}">
     <!-- Main -->
     <div id="main">
 
-        {% if errorCode %}
-        {% include "conn_fail.html" %}
-        {% else %}
         <!-- Section -->
         <section class="wrapper">
             <div class="inner">
                 <header class="align-center">
-                    <h2 id="title">[UP用户名]</h2>
-                    <p id="subtitle">[UP UID]</p>
+                    <h2 id="title">Loading username</h2>
+                    <p id="subtitle">{{ uid }}</p>
                 </header>
                 <div class="flex flex-2">
-                        <h4><a href="userfollowing?uid=1740539">关注 {{ following }}</a> | 
-                            <a href="userfollower?uid=1740539">粉丝{{ follower }}</a></h4>
-                        <table id="stat">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>用户名</th>
-                                    <th>签名</th>
-                                    <th>注册时间？</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in data.list %}
-                                <tr>
-                                    <td>{{ item.mid }}</td>
-                                    <td>{{ item.uname }}</td>
-                                    <td>{{ item.sign }}</td>
-                                    <td>{{ item.mtime }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <h4>
+                        <span>
+                            <a href="user?uid={{ uid }}">视频 <span id="video">Loading</span></a> | 
+                            <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> | 
+                            <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
+                        </span>
+                    </h4>
+                    <p>若数量大于500，则只显示前500个。</p>
+                    <table id="stat">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th style="min-width: 100px">关注时间</th>
+                                <th>签名</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
-        {% endif %}
     </div>
 
     <!-- Footer -->
