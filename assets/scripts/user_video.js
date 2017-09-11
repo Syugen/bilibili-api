@@ -23,18 +23,3 @@ $("#video").on("DOMSubtreeModified", function() {
         });
     }
 });
-
-/*
-                                {% for item in data.vlist %}
-                                <tr>
-                                    <td>{{ item.aid }}</td>
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.created }}</td>
-                                    <td>{{ item.length }}</td>
-                                    <td>{{ item.play }}</td>
-                                    <td>{{ item.typeid }}</td>
-                                    <td>{{ item.comment }}</td>
-                                    <td>{{ item.favorites }}</td>
-                                </tr>
-                                {% endfor %}
-*/

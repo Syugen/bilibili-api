@@ -1,7 +1,19 @@
 'use strict';
 
 var http = require("http");
-var decompressResponse = require('decompress-response');
+var querystring = require("querystring");
+
+exports.getUserInfo = function(req, res) {
+    if (!req.query.uid) {
+        return res.send({error: "Missing parameter"});
+    }
+    var options = {host: "space.bilibili.com",
+                   path: "/ajax/member/GetInfo",
+                   method: "POST",
+                   headers: {"Referer": "https://space.bilibili.com/" + req.query.uid + "/",
+                             "Content-Type": "application/x-www-form-urlencoded"}};
+    httpPost(res, options, {mid: req.query.uid});
+};
 
 exports.getUserVideoAmount = function(req, res) {
     if (!req.query.uid) {
@@ -49,18 +61,32 @@ exports.getUserFollowingList = function(req, res) {
     httpGet(res, options);
 };
 
-function httpGet(res, options) {
-        var req = http.get(options, function(data) {
-        data = decompressResponse(data);
-        if (data.statusCode != 200) {
-            return res.send({errorCode: data.statusCode});
+function httpGet(myres, options) {
+    var req = http.get(options, function(res) {
+        if (res.statusCode != 200) {
+            return myres.send({errorCode: res.statusCode});
         }
         var output = "";
-        data.on('data', function(chunk) {
+        res.on('data', function(chunk) {
             output += chunk.toString();
         }).on('end', function() {
-            var rs = JSON.parse(output);
-            return res.send(JSON.parse(output));
+            return myres.send(JSON.parse(output));
         });
     });
+}
+
+function httpPost(myres, options, postData) {
+    var req = http.request(options, function(res) {
+        if (res.statusCode != 200) {
+            return myres.send({errorCode: res.statusCode});
+        }
+        var output = "";
+        res.on('data', function(chunk) {
+            output += chunk.toString();
+        }).on('end', function() {console.log(JSON.parse(output))
+            return myres.send(JSON.parse(output));
+        });
+    });
+    req.write(querystring.stringify(postData));
+    req.end();
 }

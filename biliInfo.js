@@ -25,15 +25,16 @@ app.use(function(req, res, next) {
 });
 
 app.get("/", function(req, res) {
-console.log(req.headers)
     res.render("index.html", {scripts: ["index"], isIndex: true});
 });
 
 app.get("/video", video.getVideoStat);
 app.get("/videopage", video.getVideoPage);
-app.get("/user", user.getUserVideoList);
+app.get("/user", user.getUserInfo);
+app.get("/uservideo", user.getUserVideoList);
 app.get("/userfollowing", user.getUserFollowing);
 app.get("/userfollower", user.getUserFollower);
+app.get("/biliapi_userinfo", api.getUserInfo);
 app.get("/biliapi_videoamount", api.getUserVideoAmount);
 app.get("/biliapi_followamount", api.getUserFollowAmount);
 app.get("/biliapi_uservideo", api.getUserVideoList);

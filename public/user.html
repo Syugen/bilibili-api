@@ -15,17 +15,20 @@
         <section class="wrapper">
             <div class="inner">
                 <header class="align-center">
-                    <h2 id="title">[UP用户名]</h2>
+                    <h2 id="title">Loading</h2>
                     <p id="subtitle">User ID: {{ uid }}</p>
                 </header>
                 <div class="flex flex-2">
                     <h4>
                         <span>
-                            <a href="user?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
+                            <a href="user?uid={{ uid }}">信息</a> |
+                            <a href="uservideo?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
                             <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> |
                             <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
                         </span>
                     </h4>
+                    {% if type == "followings" or type == "followers" %}若数量大于500，则仅显示前500个结果。
+                    {% endif %}
                     <table id="stat">
                         <thead>
                             <tr>{% if type == "video" %}
@@ -42,6 +45,7 @@
                                 <th>用户名</th>
                                 <th style="min-width: 100px">关注时间</th>
                                 <th>签名</th>
+                                {% elif type == "info" %}
                                 {% endif %}
                             </tr>
                         </thead>
