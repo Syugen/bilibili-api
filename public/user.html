@@ -18,15 +18,19 @@
                     <h2 id="title">Loading</h2>
                     <p id="subtitle">User ID: {{ uid }}</p>
                 </header>
+                <h4>
+                    <span>
+                        <a href="user?uid={{ uid }}">主页</a> |
+                        <a href="uservideo?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
+                        <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> |
+                        <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
+                    </span>
+                </h4>
                 <div class="flex flex-2">
-                    <h4>
-                        <span>
-                            <a href="user?uid={{ uid }}">信息</a> |
-                            <a href="uservideo?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
-                            <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> |
-                            <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
-                        </span>
-                    </h4>
+                    {% if type == "info" %}
+                    <div class="col col1">
+                    {% endif %}
+
                     {% if type == "followings" or type == "followers" %}若数量大于500，则仅显示前500个结果。
                     {% endif %}
                     <table id="stat">
@@ -46,12 +50,35 @@
                                 <th style="min-width: 100px">关注时间</th>
                                 <th>签名</th>
                                 {% elif type == "info" %}
+                                <th>项目</th>
+                                <th>数据</th>
                                 {% endif %}
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
+                    {% if type == "info" %}
+                    </div>
+                    <div class="col col2">
+                        <div>
+                            <span class="image left round fit"style="max-width:100px; margin-right: 32px">
+                                <img id="upAvatar" src="" alt="Loading">
+                            </span>
+                            <span id="upName">Loading</span><br>
+<span class="h-level-all"><span style="background-position: -264px -852px" class="h-level-head">LV4</span><span class="h-level-up">进度条<span style="width:50.11111111111111%;" class="h-level-upgo"></span></span></span>
+
+                            <span class="level-all">
+                                <span style="background: url(/images/icons_m.png);background-position: -264px -852px;"
+                                      class="level-head" >LV4</span>
+                                <span class="level-full">进度条
+                                    <span class="level-current" style="width: 100px"></span>
+                                </span>
+                            </span>
+                        </div>
+                        <span id="upSign">Loading</span><br>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </section>

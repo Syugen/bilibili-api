@@ -5,7 +5,10 @@
     <meta charset="utf-8" />
     <meta name="referrer" content="never">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="css/main.css" />
+    <link type="text/css" rel="stylesheet" href="https://static.hdslb.com/account-pc/css/style.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/main.css" />
+    {% if type == "info" %}
+    {% endif %}
     {% for css in styles %}
     <link type="text/css" rel="stylesheet" href="css/{{ css }}.css" />
     {% endfor %}
