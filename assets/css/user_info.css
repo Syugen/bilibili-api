@@ -1,8 +1,5 @@
-.level-all, .level-head, .level-full, .level-current{
-  display: inline-block;
-}
-
 .level-all, .level-head, .level-full {
+  display: inline-block;
   position: relative;
 }
 
@@ -28,6 +25,9 @@
 }
 
 .level-current {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 24px;
   background-color: #ff905a
 }

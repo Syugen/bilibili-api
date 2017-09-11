@@ -22,11 +22,14 @@ $.get("/biliapi_userinfo?uid=" + uid, function(result) {
         markup += "<tr><td>" + "" + "</td><td>" + result.data + "</td></tr>";
         markup += "<tr><td>" + "" + "</td><td>" + result.data + "</td></tr>";
         markup += "<tr><td>" + "" + "</td><td>" + result.data + "</td></tr>";
-            $("table tbody").append(markup);
+        $("table tbody").append(markup);
         $("#upAvatar").attr("src", result.data.face);
         $("#upName").text(result.data.name);
         $("#upSign").text(result.data.sign);
-
+        
+        var lvinfo = result.data.level_info;
+        $(".level-head").text("LV" + lvinfo.current_level);
+        $(".level-current").width(100 * lvinfo.current_exp / lvinfo.next_exp + "%");
     }
 });
 
