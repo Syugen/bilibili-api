@@ -36,6 +36,7 @@ app.get("/userfollowing", user.getUserFollowing);
 app.get("/userfollower", user.getUserFollower);
 app.get("/biliapi_videoamount", api.getUserVideoAmount);
 app.get("/biliapi_followamount", api.getUserFollowAmount);
+app.get("/biliapi_uservideo", api.getUserVideoList);
 app.get("/biliapi_followers", api.getUserFollowerList);
 app.get("/biliapi_followings", api.getUserFollowingList);
 

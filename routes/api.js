@@ -21,6 +21,16 @@ exports.getUserFollowAmount = function(req, res) {
     httpGet(res, options);
 };
 
+exports.getUserVideoList = function(req, res) {
+    if (!req.query.uid || !req.query.pn) {
+        return res.send({error: "Missing parameter"});
+    }
+    var options = {host: "space.bilibili.com",
+                   path: "/ajax/member/getSubmitVideos?mid=" + req.query.uid +
+                         "&pagesize=100&tid=0&page=" + req.query.pn};
+    httpGet(res, options);
+};
+
 exports.getUserFollowerList = function(req, res) {
     if (!req.query.uid || !req.query.pn) {
         return res.send({error: "Missing parameter"});

@@ -3,6 +3,7 @@
 {% block body %}
 
     <input type="hidden" id="uid" value={{ uid }}>
+    <input type="hidden" id="type" value="{{ type }}">
 
     <!-- Main -->
     <div id="main">
@@ -15,44 +16,38 @@
             <div class="inner">
                 <header class="align-center">
                     <h2 id="title">[UP用户名]</h2>
-                    <p id="subtitle">[UP UID]</p>
+                    <p id="subtitle">User ID: {{ uid }}</p>
                 </header>
                 <div class="flex flex-2">
-                        <h4>
-                            <span>
-                                <a href="user?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
-                                <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> |
-                                <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
-                            </span>
-                        </h4>
-                        <table id="stat">
-                            <thead>
-                                <tr>
-                                    <th>av号</th>
-                                    <th>标题</th>
-                                    <th>上传时间</th>
-                                    <th>时长</th>
-                                    <th>播放量</th>
-                                    <th>分类</th>
-                                    <th>评论</th>
-                                    <th>收藏</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in data.vlist %}
-                                <tr>
-                                    <td>{{ item.aid }}</td>
-                                    <td>{{ item.title }}</td>
-                                    <td>{{ item.created }}</td>
-                                    <td>{{ item.length }}</td>
-                                    <td>{{ item.play }}</td>
-                                    <td>{{ item.typeid }}</td>
-                                    <td>{{ item.comment }}</td>
-                                    <td>{{ item.favorites }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <h4>
+                        <span>
+                            <a href="user?uid={{ uid }}">视频 <span id="video">Loading</span></a> |
+                            <a href="userfollowing?uid={{ uid }}">关注 <span id="following">Loading</span></a> |
+                            <a href="userfollower?uid={{ uid }}">粉丝<span id="follower">Loading</span></a>
+                        </span>
+                    </h4>
+                    <table id="stat">
+                        <thead>
+                            <tr>{% if type == "video" %}
+                                <th>av号</th>
+                                <th>标题</th>
+                                <th style="min-width: 100px">上传时间</th>
+                                <th>时长</th>
+                                <th>播放量</th>
+                                <th>分类</th>
+                                <th>评论</th>
+                                <th>收藏</th>
+                                {% elif type == "followings" or type == "followers" %}
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th style="min-width: 100px">关注时间</th>
+                                <th>签名</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
