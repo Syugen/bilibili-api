@@ -3,6 +3,17 @@
 var http = require("http");
 var querystring = require("querystring");
 
+exports.getVideoStat = function(req, res) {
+    if (!req.query.aid) {
+        return res.send({error: "Missing parameter"});
+    }
+    var options = {
+        host: "api.bilibili.com",
+        path: "/archive_stat/stat?aid=" + req.query.aid
+    };
+    httpPost(res, options);
+}
+
 exports.getUserInfo = function(req, res) {
     if (!req.query.uid) {
         return res.send({error: "Missing parameter"});
