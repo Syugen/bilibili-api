@@ -1,13 +1,16 @@
 var mysql = require("mysql");
 var http = require("http");
 
-var av = 2300;
-var RATE = 30;
+// Global static variable
 var PARAM = ["view", "danmaku", "reply", "favorite", "coin", "share", "now_rank", "his_rank", "like", "no_reprint", "copyright"];
 
+// Global dynamic variable
+var av = 1;
 var t; // setInterval function, set after db is connected
 var timerCleared = false;
+var rate_cur = 25;
 
+// Database variable
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -19,25 +22,55 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Connected to database.");
     
+    // Check the last updated av number (multiple of 100)
     con.query("SELECT av FROM last_updated", function (err, result, fields) {
         if (err) throw err;
-        av = Math.max(0, result[0].av - 100);
-        console.log(av + " start from av" + av);
+        av = Math.max(0, result[0].av - 100);    // Start from 100 items before
+        console.log(av + " start from av" + av); // to avoid missing of updating 
     
-        t = setInterval(httpGetVideoInfo, 1000 / RATE);
+        t = setInterval(httpGetVideoInfo, 1000 / rate_cur); // Start timer
+        console.log(av + " starting at rate = " + rate_cur);
 
-        setInterval(function() {  // Print progress every minute
-            console.log(av + " Routine progress checking. It is now " + (new Date()))
-        }, 1000 * 60);
+        setInterval(routine, 1000 * 60);         // Print progress every minute
     });
 });
 
+function resetTimer(hour, rate) {
+    clearInterval(t);
+    t = setInterval(httpGetVideoInfo, 1000 / rate);
+    rate_cur = rate;
+    console.log(av + " It is now over " + hour + "am Beijing time. " +
+                "Setting rate = " + rate);
+}
+
+function routine() {
+    console.log(av + " Routine check. Rate = " + rate_cur + ". Time: " + (new Date()));
+
+    if (timerCleared) return; // Do NOT do the following when waiting for 403 release
+
+    var d = new Date()                           // Set rate base on UTC+8 (Beijing) time
+    var hour = (d.getUTCHours() + 8) % 24;
+    if (hour < 2 && rate_cur != 30) {
+        resetTimer(hour, 30);
+    } else if (hour >= 2 && hour < 7 && rate_cur != 20) {
+        resetTimer(hour, 20);
+    } else if (hour >= 7 && hour < 10 && rate_cur != 30) {
+        resetTimer(hour, 30);
+    } else if (hour >= 10 && hour < 18 && rate_cur != 40) {
+        resetTimer(hour, 40);
+    } else if (hour >= 18 && rate_cur != 45) {
+        resetTimer(hour, 45);
+    }
+}
 function httpGetVideoInfo(aid=0) {
     var this_av;
     if (aid == 0) {
         this_av = av;
         av += 1;
-    } else this_av = aid;
+    } else {
+        this_av = aid;
+        console.log(this_av + " Came with aid = " + this_av);
+    }
 
     var options = {
         host: "api.bilibili.com",
@@ -61,18 +94,25 @@ function httpGetVideoInfo(aid=0) {
                 console.log(this_av + " timer cleared. It is now " + (new Date()));
                 timerCleared = true;
                 setTimeout(function() {
-                    t = setInterval(httpGetVideoInfo, 1000 / RATE);
-                    console.log(this_av + " New timer set. Starting again");
+                    t = setInterval(httpGetVideoInfo, 1000 / rate_cur);
+                    console.log(av + " starting at rate = " + rate_cur);
                     timerCleared = false;
-                }, 1000 * 60 * 65); // Receiving 403, retry 65 minutes later.
+                }, 1000 * 60 * 10); // Receiving 403, retry 10 minutes later.
             }
             return;
         }
+
         var output = "";
         res.on('data', function(chunk) {
             output += chunk.toString();
         }).on('end', function() {
             var json = JSON.parse(output);
+
+            if (json == null) { // JSON parse fail. 
+                console.log(this_av + " JSON parse returns null. Original data is: " + output);
+                return httpGetVideoInfo(this_av);
+            }
+
             var settings = "";
             if (json.code == 0) {
                 for (var i = 0; i < PARAM.length; i++) {
@@ -95,8 +135,8 @@ function httpGetVideoInfo(aid=0) {
                 } else {
                     if (this_av % 100 == 0) {
                         var sql = "UPDATE last_updated SET av = " + this_av;
-                        con.query(sql, function(err, result) {if (err) throw err;})
-                        console.log(this_av, result.affectedRows + " record(s) updated");
+                        con.query(sql, function(err, result) {if (err) throw err;});
+                        console.log(this_av + " " + result.affectedRows + " record(s) updated");
                     }
                 }
             });
