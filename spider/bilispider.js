@@ -113,21 +113,20 @@ function httpGetVideoInfo(aid=0) {
                 return httpGetVideoInfo(this_av);
             }
 
-            var settings = "";
-            if (json.code == 0) {
-                for (var i = 0; i < PARAM.length; i++) {
-                    var value = isNaN(json.data[PARAM[i]]) ? 0 : json.data[PARAM[i]];
-                    settings += "`" + PARAM[i] + "` = " + value + ", ";
-                }
-                settings += "`update` = " + Math.floor((new Date()).getTime() / 1000);
+            var insert = "(" + this_av + ", ";
+            var update = "";
+            if (json.code != 0) return;
+                
+            for (var i = 0; i < PARAM.length; i++) {
+                var value = isNaN(json.data[PARAM[i]]) ? 0 : json.data[PARAM[i]];
+                insert += value + ", ";
+                update += "`" + PARAM[i] + "` = " + value + ", ";
             }
-            else { // Usually 40003
-                for (var i = 0; i < PARAM.length; i++) {
-                    settings += "`" + PARAM[i] + "` = NULL, ";
-                }
-                settings += "`update` = " + Math.floor((new Date()).getTime() / 1000);
-            }
-            var sql = "UPDATE avinfo SET " + settings + " WHERE av = " + this_av;
+            insert += Math.floor((new Date()).getTime() / 1000) + ")";
+            update += "`update` = " + Math.floor((new Date()).getTime() / 1000);
+
+            var sql = "INSERT INTO avinfo VALUES " + insert;
+            sql += " ON DUPLICATE KEY UPDATE " + update;
             con.query(sql, function (err, result) {
                 if (err) {
                     console.log(this_av + " ERROR WHEN UPDATING avinfo");

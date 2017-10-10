@@ -94,7 +94,7 @@ function httpPost(myres, options, postData) {
         var output = "";
         res.on('data', function(chunk) {
             output += chunk.toString();
-        }).on('end', function() {console.log(JSON.parse(output))
+        }).on('end', function() {
             return myres.send(JSON.parse(output));
         });
     });
