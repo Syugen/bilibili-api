@@ -13,11 +13,22 @@ First, install all dependencies using `npm` command.
 ```
 npm install
 ```
-Then, run
+Then, to start the server, run
 ```
 node biliInfo.js
 ```
 Now, the server is listening on `localhost:3002`.
+## Develop
+For developers, it might be easier to test by running the website using `nodemon`. If you haven't installed it, run
+```
+npm install -g nodemon
+```
+Then, to start the server, run
+```
+nodemon biliInfo.js -e js,html,css
+```
+The server will restart automatically if any JavaScript, HTML, or CSS has changed.
+
 ## Preview
 ### Index page
 ![alt index](assets/images/preview_index.png "Index page")
