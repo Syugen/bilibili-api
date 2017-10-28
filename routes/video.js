@@ -81,9 +81,12 @@ exports.getVideoPage = function(req, res) {
                 json.description = dom.getElementById("v_desc").innerHTML;
                 json.upName = dom.getElementsByClassName("usname")[0].
                                   getElementsByTagName("a")[0].innerHTML;
+                json.uid = dom.getElementsByClassName("usname")[0].
+                               getElementsByTagName("a")[0].getAttribute("mid");
                 json.upSign = dom.getElementsByClassName("sign")[0].innerHTML;
                 json.upAvatar = dom.getElementsByClassName("upinfo")[0].
                                     getElementsByTagName("img")[0].getAttribute("data-fn-src");
+                json.error = false;
                 return res.send(json);
             } catch(err) {
                 return res.send({error: true, data: output});

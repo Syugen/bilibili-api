@@ -81,6 +81,7 @@ function getWebpageInfo(req, res, stat) {
                 json.upAvatar = dom.getElementsByClassName("upinfo")[0].
                                     getElementsByTagName("img")[0].getAttribute("data-fn-src");
                 stat.web = json;
+                stat.web.error = false;
                 getUserVideoAmountInfo(req, res, stat);
             } catch(err) {
                 stat.web = {error: true};
