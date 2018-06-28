@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -7,7 +8,8 @@ var http = require("http");
 var server = http.createServer(app);
 
 var nunjucks = require('nunjucks');
-nunjucks.configure('public', { autoescape: true, express: app });
+nunjucks.configure(path.resolve(__dirname + "/public/"),
+    { autoescape: true, express: app });
 
 var video = require("./routes/video");
 var user = require("./routes/user");
